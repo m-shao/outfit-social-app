@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import parser from 'fast-xml-parser';
 
 export default function App() {
   const [location, setLocation] = useState(null);

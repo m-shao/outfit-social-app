@@ -11,60 +11,60 @@ import Profile from './routes/Profile';
 import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: (
-      <>
-        <Navbar />
-        <App />
-      </>
-    ),
-  },
-  {
-    path: '/auth',
-    element: (
-      <>
-        <Navbar />
-        <Auth />
-      </>
-    ),
-  },
-  {
-    path: '/feed',
-    element: (
-      <>
-        <Navbar />
-        <Feed />
-      </>
-    ),
-  },
-  {
-    path: '/create',
-    element: (
-      <>
-        <Navbar />
-        <Create />
-      </>
-    ),
-  },
-  {
-    path: '/generate',
-    element: (
-      <>
-        <Navbar />
-        <Generate />
-      </>
-    ),
-  },
-  {
-    path: '/profile',
-    element: (
-      <>
-        <Navbar />
-        <Profile />
-      </>
-    ),
-  },
+    {
+        path: '/',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <App />
+            </div>
+        ),
+    },
+    {
+        path: '/auth',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <Auth />
+            </div>
+        ),
+    },
+    {
+        path: '/feed',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <Feed />
+            </div>
+        ),
+    },
+    {
+        path: '/create',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <Create />
+            </div>
+        ),
+    },
+    {
+        path: '/generate',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <Generate />
+            </div>
+        ),
+    },
+    {
+        path: '/profile',
+        element: (
+            <div className='flex flex-col lg:flex-row'>
+                <Navbar />
+                <Profile />
+            </div>
+        ),
+    },
 ]);
 console.log(import.meta.env.VITE_AUTH_DOMAIN);
 ReactDOM.createRoot(document.getElementById('root')).render(
