@@ -38,7 +38,7 @@ export default function App() {
 
     return (
         <div className="App">
-            <div className="flex flex-col pt-6 sm:flex-row items-start justify-center">
+            <div className="flex flex-col pt-6 pl-6 md:sm:flex-row items-start justify-center">
                 <div className="max-w-md mx-auto px-6 py-8 bg-white rounded-lg shadow-lg">
                     {location ? (
                         <div>
@@ -67,12 +67,6 @@ export default function App() {
                                             Wind Direction:
                                         </span>{' '}
                                         {weather.current_weather.winddirection}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Weather Code:
-                                        </span>{' '}
-                                        {weather.current_weather.weathercode}
                                     </p>
                                     <p>
                                         <span className="font-semibold">
