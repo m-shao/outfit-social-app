@@ -1,5 +1,13 @@
+import LoginButton from '../components/LoginButton';
+import Profile from './Profile';
+
 function Auth() {
-    return <div>Auth</div>;
+    return (
+        <div>
+            <LoginButton />
+            <Profile />
+        </div>
+    );
 }
 
 export default Auth;
