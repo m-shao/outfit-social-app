@@ -66,17 +66,17 @@ const router = createBrowserRouter([
         ),
     },
 ]);
-
+console.log(import.meta.env.VITE_AUTH_DOMAIN);
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <Auth0Provider
-            domain={import.meta.env.VITE_AUTH_DOMAIN}
-            clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
-            authorizationParams={{
-                redirect_uri: window.location.origin,
-            }}
-        >
-            <RouterProvider router={router} />
-        </Auth0Provider>
-    </React.StrictMode>
+  <React.StrictMode>
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <RouterProvider router={router} />
+    </Auth0Provider>
+  </React.StrictMode>
 );
