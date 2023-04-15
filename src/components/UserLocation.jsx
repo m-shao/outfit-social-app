@@ -13,14 +13,7 @@ export default function App() {
         })
     }, [])
 
-    // Weather Variables available:
-    // Maximum Temperature (2 m) - how warm it will be during the day - advise users to wear lighter clothes or layers.
-    // Minimum Temperature (2 m) - how cold it will be during the day or night - advise users to wear heavier clothes or layers.
-    // Precipitation Probability Max - chance of rain - advise users to bring an umbrella or raincoat if needed.
-    // UV Index - strength of the sun's UV rays - advise users to wear sunscreen or protective clothing if needed.
-    // Wind Speed - how strong the wind will be - advise users to wear appropriate clothing or accessories like a hat or scarf to protect them from the wind.
-    // Sunrise and Sunset - how long day will be - advise users to wear appropriate clothing for the time of day.
-    // Weathercode - general weather conditions - advise users to wear appropriate clothing for the weather (e.g., sunny, cloudy, rainy, etc.).
+    // weather api call
     useEffect(() => {
         if (location) {
             setLoading(true)
