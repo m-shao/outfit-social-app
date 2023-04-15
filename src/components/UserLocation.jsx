@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import parser from 'fast-xml-parser';
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -50,8 +51,9 @@ export default function App() {
       )
         .then((response) => response.text())
         .then((data) => {
-          console.log(data);
-          setTimezone(data);
+          const parsedData = parser.parse(data);
+          const timezoneInfo = parsedData && parsedData.timezone;
+          setTimezone(timezoneInfo);
           setLoading(false);
         })
         .catch((error) => console.error(error));
