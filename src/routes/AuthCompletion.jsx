@@ -25,7 +25,7 @@ function AuthCompletion() {
 
     if (isAuthenticated) {
         validateUser(user.name).then((userExists) => {
-            if (userExists) {
+            if (userExists == true) {
                 window.location.pathname = '/';
             }
         });
