@@ -11,72 +11,72 @@ import Profile from './routes/Profile';
 import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: (
-            <>
-                <Navbar />
-                <App />
-            </>
-        ),
-    },
-    {
-        path: '/auth',
-        element: (
-            <>
-                <Navbar />
-                <Auth />
-            </>
-        ),
-    },
-    {
-        path: '/feed',
-        element: (
-            <>
-                <Navbar />
-                <Feed />
-            </>
-        ),
-    },
-    {
-        path: '/create',
-        element: (
-            <>
-                <Navbar />
-                <Create />
-            </>
-        ),
-    },
-    {
-        path: '/generate',
-        element: (
-            <>
-                <Navbar />
-                <Generate />
-            </>
-        ),
-    },
-    {
-        path: '/profile',
-        element: (
-            <>
-                <Navbar />
-                <Profile />
-            </>
-        ),
-    },
+  {
+    path: '/',
+    element: (
+      <>
+        <Navbar />
+        <App />
+      </>
+    ),
+  },
+  {
+    path: '/auth',
+    element: (
+      <>
+        <Navbar />
+        <Auth />
+      </>
+    ),
+  },
+  {
+    path: '/feed',
+    element: (
+      <>
+        <Navbar />
+        <Feed />
+      </>
+    ),
+  },
+  {
+    path: '/create',
+    element: (
+      <>
+        <Navbar />
+        <Create />
+      </>
+    ),
+  },
+  {
+    path: '/generate',
+    element: (
+      <>
+        <Navbar />
+        <Generate />
+      </>
+    ),
+  },
+  {
+    path: '/profile',
+    element: (
+      <>
+        <Navbar />
+        <Profile />
+      </>
+    ),
+  },
 ]);
-
+console.log(import.meta.env.VITE_AUTH_DOMAIN);
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <Auth0Provider
-            domain={import.meta.env.VITE_AUTH_DOMAIN}
-            clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
-            authorizationParams={{
-                redirect_uri: window.location.origin,
-            }}
-        >
-            <RouterProvider router={router} />
-        </Auth0Provider>
-    </React.StrictMode>
+  <React.StrictMode>
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <RouterProvider router={router} />
+    </Auth0Provider>
+  </React.StrictMode>
 );
