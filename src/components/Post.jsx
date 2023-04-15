@@ -1,9 +1,24 @@
-import send from '../images/send.svg'
-
 import { useState } from 'react'
 
+import Comment from './Comment'
+
+import send from '../images/send.svg'
+import pfp from '../images/pfp.png'
+
 function Post({ image, user, caption, likes}) {
-    const [liked, setLiked] = useState(true)
+    const numberOfCommentsShownPerClick = 2;
+    const [liked, setLiked] = useState();
+    const [commentCount, setCommentCount] = useState(0);
+
+    const comments = {
+        'user1': {'date':'2023/04/15', 'content': 'HELLO I AM YOUR MOM', 'pfp': pfp},
+        'user2': {'date':'2023/05/15', 'content': 'This is the second comment', 'pfp': pfp},
+        'user3': {'date':'2023/06/15', 'content': 'i hate mohammad', 'pfp': pfp},
+        'user4': {'date':'2023/03/15', 'content': 'reese is my best friend', 'pfp': pfp},
+        'user5': {'date':'2023/04/15', 'content': 'INSERT mohammad comment here', 'pfp': pfp},
+        'user6': {'date':'2023/02/15', 'content': 'canceled', 'pfp': pfp},
+        'user7': {'date':'2023/01/15', 'content': 'this is the last comment ever!', 'pfp': pfp},
+    }
 
     const changeLike = () => {
         if (liked) {
@@ -12,7 +27,11 @@ function Post({ image, user, caption, likes}) {
             //add to database(user's liked posts)
         }
 
-        setLiked(prev => !prev)
+        setLiked(prev => !prev);
+    }
+
+    const changeCommentCount = () => {
+        setCommentCount(prev => prev + numberOfCommentsShownPerClick);
     }
 
     return (
@@ -31,6 +50,22 @@ function Post({ image, user, caption, likes}) {
             </div>
             <h1>liked by {likes} people</h1>
             <h1 className='text-gray-400 text-sm'>{caption}</h1>
+            <div className='text-sm'>
+                <div className={'flex flex-col'}>
+                    {Object.keys(comments).slice(0, commentCount).map((user, index) => (
+                        <Comment
+                            key={index}
+                            username={user}
+                            date={comments[user].date}
+                            content={comments[user].content}
+                            pfp={comments[user].pfp}
+                        />
+                    ))}
+                </div>
+                <button className='mt-3' onClick={changeCommentCount}>
+                    <h3>View more comments...</h3>
+                </button>
+            </div>
             <div className='border-b'></div>
         </div>
     )
