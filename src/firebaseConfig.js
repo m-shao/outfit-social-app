@@ -12,7 +12,7 @@ const firebaseConfig = {
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
     appId: 'YOUR_APP_ID',
 };
-rfc;
+
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();

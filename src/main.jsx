@@ -7,10 +7,9 @@ import Navbar from './components/Navbar';
 import Feed from './routes/Feed';
 import Create from './routes/Create';
 import Generate from './routes/Generate';
+import Profile from './routes/Profile';
 import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
-import Profile from './routes/Profile';
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -54,6 +53,8 @@ const router = createBrowserRouter([
             <>
                 <Navbar />
                 <Generate />
+            </>
+        ),
     },
     {
         path: '/profile',
@@ -69,8 +70,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Auth0Provider
-            domain={process.env.REACT_APP_AUTH_DOMAIN}
-            clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
+            domain={import.meta.env.VITE_AUTH_DOMAIN}
+            clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
             authorizationParams={{
                 redirect_uri: window.location.origin,
             }}
