@@ -1,5 +1,9 @@
+import { Link } from 'react-router-dom'
+
 import { navIcons } from '../data/constants'
 import userIcon from '../images/user.svg'
+
+
 
 const Navbar = () => {
     return (
@@ -11,9 +15,9 @@ const Navbar = () => {
                         <br />
                         <span className="text-social-blue">Social App</span>
                     </div>
-                    <button>
+                    <Link to='/Auth'>
                         <img className='w-8' src={userIcon} alt="user account icon" />
-                    </button>
+                    </Link>
                     
                 </div>
                 
