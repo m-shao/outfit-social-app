@@ -38,41 +38,63 @@ export default function App() {
 
     return (
         <div className="App">
-            <div className="App">
-                {location ? (
-                    <div>
-                        location is {location.longitude}, {location.latitude}
-                        {weather && weather.current_weather && (
-                            <div>
-                                <p>
-                                    Temperature:{' '}
-                                    {weather.current_weather.temperature}
-                                </p>
-                                <p>
-                                    Wind Speed:{' '}
-                                    {weather.current_weather.windspeed}
-                                </p>
-                                <p>
-                                    Wind Direction:{' '}
-                                    {weather.current_weather.winddirection}
-                                </p>
-                                <p>
-                                    Weather Code:{' '}
-                                    {weather.current_weather.weathercode}
-                                </p>
-                                <p>
-                                    Is Day:{' '}
-                                    {weather.current_weather.is_day
-                                        ? 'Yes'
-                                        : 'No'}
-                                </p>
-                                <p>Time: {weather.current_weather.time}</p>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <p>Retrieving location...</p>
-                )}
+            <div className="flex flex-col pt-6 sm:flex-row items-start justify-center">
+                <div className="max-w-md mx-auto px-6 py-8 bg-white rounded-lg shadow-lg">
+                    {location ? (
+                        <div>
+                            <p className="text-xl font-semibold mb-4">
+                                Your location is {location.longitude},{' '}
+                                {location.latitude}
+                            </p>
+                            {weather && weather.current_weather && (
+                                <div>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Temperature:
+                                        </span>{' '}
+                                        {weather.current_weather.temperature}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Wind Speed:
+                                        </span>{' '}
+                                        {weather.current_weather.windspeed}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Wind Direction:
+                                        </span>{' '}
+                                        {weather.current_weather.winddirection}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Weather Code:
+                                        </span>{' '}
+                                        {weather.current_weather.weathercode}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Is Day:
+                                        </span>{' '}
+                                        {weather.current_weather.is_day
+                                            ? 'Yes'
+                                            : 'No'}
+                                    </p>
+                                    <p>
+                                        <span className="font-semibold">
+                                            Time:
+                                        </span>{' '}
+                                        {weather.current_weather.time}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <p className="text-lg font-semibold">
+                            Retrieving location...
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     )
