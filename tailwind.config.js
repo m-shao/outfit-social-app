@@ -11,6 +11,5 @@ export default {
         'social-pink': '#FD7BAD'
       }
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+};

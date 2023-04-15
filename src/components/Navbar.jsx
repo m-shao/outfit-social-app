@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import LoginButton from './LoginButton';
 
 import { navIcons } from '../data/constants';
 import userIcon from '../images/user.svg';
+import Location from './Location';
 
 const Navbar = () => {
-    
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const [activeNav, setActiveNav] = useState('feed');
     
     return (
@@ -18,13 +21,17 @@ const Navbar = () => {
                         <br />
                         <span className="text-social-blue">Social App</span>
                     </div>
-                    <Link to="/auth">
-                        <img
-                            className="w-9"
-                            src={userIcon}
-                            alt="user account icon"
-                        />
-                    </Link>
+                  {isAuthenticated ? (
+                          <Link to='/profile'>
+                              <img
+                                  className='w-8 rounded-full'
+                                  src={user.picture}
+                                  alt='user account icon'
+                              />
+                          </Link>
+                      ) : (
+                          <LoginButton />
+                      )}
                 </div>
 
                 <div className="flex-1 text-md">
