@@ -40,7 +40,7 @@ export default function App() {
         <div className="App">
             <div className="App">
                 {location ? (
-                    <p>
+                    <div>
                         location is {location.longitude}, {location.latitude}
                         {weather && weather.current_weather && (
                             <div>
@@ -69,7 +69,7 @@ export default function App() {
                                 <p>Time: {weather.current_weather.time}</p>
                             </div>
                         )}
-                    </p>
+                    </div>
                 ) : (
                     <p>Retrieving location...</p>
                 )}
