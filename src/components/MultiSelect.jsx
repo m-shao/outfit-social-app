@@ -38,8 +38,7 @@ function MultiSelect() {
         <div className="w-full flex flex-col gap-2">
             <h1 className="font-bold">Multi-select</h1>
             <div className={'relative overflow-hidden w-full bg-gray-100 rounded-3xl px-4 py-3 flex flex-col gap-3 ' 
-            + (menuOpen ? 'h-auto items-start ' : 'h-11 items-center ') 
-            + ((Object.keys(selectedItems).length && !menuOpen) && 'pt-1') }>
+            + (menuOpen ? 'h-auto items-start ' : 'h-13 items-center ')}>
                 <div className="flex justify-between w-full">
                     {!Object.keys(selectedItems).length ? 
                     <p className="text-gray-400 text-sm">Choose a tag.</p> :
