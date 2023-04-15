@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './routes/App';
 import Auth from './routes/Auth';
 import Navbar from './components/Navbar';
+import Feed from './routes/Feed';
+import Create from './routes/Create';
+import Generate from './routes/Generate';
 import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 import Profile from './routes/Profile';
@@ -26,6 +29,31 @@ const router = createBrowserRouter([
                 <Auth />
             </>
         ),
+    },
+    {
+        path: '/feed',
+        element: (
+            <>
+                <Navbar />
+                <Feed />
+            </>
+        ),
+    },
+    {
+        path: '/create',
+        element: (
+            <>
+                <Navbar />
+                <Create />
+            </>
+        ),
+    },
+    {
+        path: '/generate',
+        element: (
+            <>
+                <Navbar />
+                <Generate />
     },
     {
         path: '/profile',
