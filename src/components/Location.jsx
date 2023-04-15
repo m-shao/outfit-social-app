@@ -9,23 +9,25 @@ export default function App() {
       const { latitude, longitude } = position.coords;
       setLocation({ latitude, longitude });
     });
-  });
+  }, []);
 
   useEffect(() => {
-    fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=43.88&longitude=-78.93&hourly=temperature_2m,precipitation_probability,rain,showers,snowfall&current_weather=true',
-      {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          Origin: 'http://localhost:5173',
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  }, []);
+    if (location) {
+      fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max&current_weather=true&forecast_days=1`,
+        {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            Origin: 'http://localhost:5173',
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+    }
+  }, [location]);
 
   return (
     <div className="App">
