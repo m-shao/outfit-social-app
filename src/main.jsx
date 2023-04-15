@@ -14,55 +14,55 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <App />
-            </>
+            </div>
         ),
     },
     {
         path: '/auth',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <Auth />
-            </>
+            </div>
         ),
     },
     {
         path: '/feed',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <Feed />
-            </>
+            </div>
         ),
     },
     {
         path: '/create',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <Create />
-            </>
+            </div>
         ),
     },
     {
         path: '/generate',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <Generate />
-            </>
+            </div>
         ),
     },
     {
         path: '/profile',
         element: (
-            <>
+            <div className='flex flex-col lg:flex-row'>
                 <Navbar />
                 <Profile />
-            </>
+            </div>
         ),
     },
 ]);

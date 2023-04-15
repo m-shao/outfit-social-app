@@ -39,11 +39,11 @@ function MultiSelect() {
             <h1 className="font-bold">Multi-select</h1>
             <div className={'relative overflow-hidden w-full bg-gray-100 rounded-3xl px-4 py-3 flex flex-col gap-3 ' 
             + (menuOpen ? 'h-auto items-start ' : 'h-13 items-center ')}>
-                <div className="flex justify-between w-full">
+                <div className="flex justify-between w-full max-w-sm">
                     {!Object.keys(selectedItems).length ? 
                     <p className="text-gray-400 text-sm">Choose a tag.</p> :
                     <div className="flex flex-wrap gap-2">
-                        {Object.keys(selectedItems).map((item, index) => (
+                        {Object.keys(selectedItems).map((item) => (
                             <div key={item} className="bg-social-blue text-white text-sm py-2 pl-4 pr-2 rounded-full flex justify-between gap-2">
                                 <h1>{item}</h1>
                                 <button onClick={() => {handleCheck(null, item)}}>
@@ -57,16 +57,7 @@ function MultiSelect() {
                     </button>
                 </div>
                 <div className={'w-full flex flex-col gap-4 ' + (!menuOpen && 'hidden')}>
-                    <form onSubmit={handleSubmit} className="text-sm bg-white pl-4 pr-2 py-1 w-3/4 rounded-full flex justify-between">
-                        <input value={searchVal}
-                            onChange={handleInput} 
-                            placeholder="Search"
-                            className="w-full"/>
-                        <button type="submit" className="">
-                            <img className="h-7" src={search} alt=""/>
-                        </button>
-                    </form>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 mt-2">
                         <div className="flex flex-wrap justify-evenly">
                             {Object.keys(clothingOptions).map(
                             (option, index) => (
