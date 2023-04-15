@@ -22,7 +22,7 @@ function Post({ image, user, caption, likes}) {
 
     const changeLike = () => {
         if (liked) {
-            //remove from database(user's liked posts)
+            //remove from database(user's liked posts) incorporate Firebase addData function
         } else{
             //add to database(user's liked posts)
         }
