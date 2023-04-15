@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import UserLocation from '../components/UserLocation';
 
 function Generate() {
   return (
-    <div>Generate</div>
-  )
+    <>
+      <UserLocation />
+    </>
+  );
 }
 
-export default Generate
+export default Generate;
