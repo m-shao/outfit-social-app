@@ -8,7 +8,7 @@ function AuthCompletion() {
         setBiography(event.target.value);
     };
     const { user, isAuthenticated, isLoading } = useAuth0();
-    const setData = () => {
+    const setData = (redirect = false) => {
         const userData = {
             bio: biography,
             liked_posts: [],
@@ -18,9 +18,11 @@ function AuthCompletion() {
             email: user.email,
             userName: user.name,
         };
-        setDoc(doc(database, 'users', user.name), userData).then(
-            () => (window.location.pathname = '/')
-        );
+        setDoc(doc(database, 'users', user.name), userData).then(() => {
+            if (redirect == true) {
+                window.location.pathname = '/';
+            }
+        });
     };
 
     if (isAuthenticated) {
@@ -30,7 +32,7 @@ function AuthCompletion() {
             }
         });
     }
-
+    setData();
     return (
         <div>
             {isLoading && 'Please wait while your account is loaded.'}
@@ -42,7 +44,13 @@ function AuthCompletion() {
                         value={biography}
                         onChange={handleBioChange}
                     />
-                    <button onClick={setData}>Continue</button>
+                    <button
+                        onClick={() => {
+                            setData(true);
+                        }}
+                    >
+                        Continue
+                    </button>
                 </>
             )}
         </div>
