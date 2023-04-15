@@ -1,11 +1,3 @@
-
-
-const Navbar = () => {
-  return (
-    <div className="flex">
-        Yourmom
-    </div>
-  )
-}
-
-export default Navbar
+export const Navbar = () => {
+  return <div className="flex"></div>;
+};
