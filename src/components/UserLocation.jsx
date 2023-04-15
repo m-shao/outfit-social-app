@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function App() {
   const [location, setLocation] = useState(null);
+  const [timezone, setTimezone] = useState(null);
   const [weather, setWeather] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -28,6 +29,29 @@ export default function App() {
         .then((response) => response.json())
         .then((data) => {
           setWeather(data);
+          setLoading(false);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (location) {
+      setLoading(true);
+      fetch(
+        `http://api.timezonedb.com/v2.1/get-time-zone?key=OW0FUQN3IH3H&format=xml&by=position&lat=${location.latitude}&lng=${location.longitude}`,
+        {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            Origin: 'http://localhost:5173',
+          },
+        }
+      )
+        .then((response) => response.text())
+        .then((data) => {
+          console.log(data);
+          setTimezone(data);
           setLoading(false);
         })
         .catch((error) => console.error(error));
