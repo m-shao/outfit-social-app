@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import LoginButton from './LoginButton';
 
 import { navIcons } from '../data/constants';
 import userIcon from '../images/user.svg';
 import Location from './Location';
 
 const Navbar = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
   return (
     <>
       <div className="flex flex-col justify-between w-full gap-6 px-6 pt-6 pb-3 bg-white shadow-md ">
@@ -14,11 +17,19 @@ const Navbar = () => {
             <br />
             <span className="text-social-blue">Social App</span>
           </div>
-          <Link to="/Auth">
-            <img className="w-8" src={userIcon} alt="user account icon" />
-          </Link>
+          {isAuthenticated ? (
+                  <Link to='/profile'>
+                      <img
+                          className='w-8 rounded-full'
+                          src={user.picture}
+                          alt='user account icon'
+                      />
+                  </Link>
+              ) : (
+                  <LoginButton />
+              )}
         </div>
-
+        
         <div className="flex-1 text-md">
           <ul className="flex justify-between">
             <li className="flex gap-2">
