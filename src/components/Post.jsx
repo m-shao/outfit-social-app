@@ -31,7 +31,12 @@ function Post({ image, user, caption, likes}) {
     }
 
     const changeCommentCount = () => {
-        setCommentCount(prev => prev + numberOfCommentsShownPerClick);
+        if (commentCount >= Object.keys(comments).length){
+            setCommentCount(0);
+        } else{
+            setCommentCount(prev => prev + numberOfCommentsShownPerClick);
+        }
+        
     }
 
     return (
@@ -63,7 +68,7 @@ function Post({ image, user, caption, likes}) {
                     ))}
                 </div>
                 <button className='mt-3' onClick={changeCommentCount}>
-                    <h3>View more comments...</h3>
+                    <h3>{ commentCount >= Object.keys(comments).length ? 'Hide all comments' : 'View more comments...'}</h3>
                 </button>
             </div>
             <div className='border-b'></div>
