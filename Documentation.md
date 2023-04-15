@@ -15,7 +15,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 ```JavaScript
 const { user, isAuthenticated, isLoading } = useAuth0()
 ```
-
 ## Weather API
 
 We can use these variables from open-meteo to process what the user should wear
@@ -35,19 +34,30 @@ Auth is done with [Auth0](https://auth0.com/docs). The primary function of Auth0
 Data management is done with Firebase, through collections.
 
 ### Read
-In order to access the data import required functionality and insantiate the collection, with the COLLECTION_NAME: `users` or `posts`
+firebaseConfig.js exposes the `retrieveData()` function which can be called with a `collectionName` (`users` or `posts`). THe function returns an object with the data.
+```JavaScript
+import { useEffect, useState } from 'react';
+const [userData, setUserData] = useState();
+
+useEffect(() => {
+    retrieveData(COLLECTION_NAME)
+        .then((results) => {
+            setUserData(results);
+        })
+}, []); 
+```
+You can also do the longer method to access the data by importing required functionality and insantiating the collection, with the COLLECTION_NAME: `users` or `posts`. Then retrieve the data, by using getDocs, and looping through the result. Use `.data()` to extract the data and not other extraneous information.
 
 ```JavaScript
 import { db } from '../firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
+import { useState } from 'react'
+const [userData, setUserData] = useState();
 const usersRef = collection(db, COLLECTION_NAME)
-```
-Then retrieve the data, by using getDocs, and looping through the result. Use `.data()` to extract the data and not other extraneous information.
 
-```JavaScript
 getDocs(usersRef).then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-        console.log(doc.data())
+        setUserData(doc.data())
     })
 })
 ```

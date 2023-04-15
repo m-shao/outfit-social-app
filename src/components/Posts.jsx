@@ -1,63 +1,44 @@
-import Post from "./Post"
+import Post from './Post';
+import { retrieveData } from '../firebaseConfig';
+import pfp from '../images/pfp.png';
+import woman from '../images/woman.png';
 
-import pfp from '../images/pfp.png'
-import woman from '../images/woman.png'
-
-import man from '../images/man.png'
-import pfp2 from '../images/pfp2.png'
+import man from '../images/man.png';
+import pfp2 from '../images/pfp2.png';
+import { useEffect, useState } from 'react';
 
 function Posts() {
+    const [userData, setUserData] = useState();
+    const [postData, setPostData] = useState();
 
-    //fetch posts from database
-
-    const users = {
-        'person123': {
-            'pfp': pfp,
-            'name': 'person123'
-        },
-        'testman321': {
-            'pfp': pfp2,
-            'name': 'testman321'
-        }
-    }
-
-    const posts = {
-        '1':{
-            'username': 'person123',
-            'pfp': pfp,
-            'image': woman,
-            'tags': ['tag1', 'tag2', 'tag3'],
-            'likeCount': 123,
-            'caption': 'Insert nice quirky caption here. I chose this outfit using this awesome social media app. omg, i love wearing clothes because I would be arrested if i didn’t wear it',
-            'comments': {
-                'user': {'date':'date', 'content': 'content'},
+    useEffect(() => {
+        // Handle multiple promises and fetch data for users and posts in parallel
+        Promise.all([retrieveData('users'), retrieveData('posts')]).then(
+            ([userResults, postResults]) => {
+                setUserData(userResults);
+                setPostData(postResults);
             }
-        },
-        '2':{
-            'username': 'testman321',
-            'pfp': pfp,
-            'image': man,
-            'tags': ['tag1', 'tag2', 'tag3'],
-            'likeCount': 123,
-            'caption': 'Insert nice quirky caption here. I chose this outfit using this awesome social media app. omg, i love wearing clothes because I would be arrested if i didn’t wear it',
-            'comments': {
-                'user': {'date':'date', 'content': 'content'},
-            }
-        },
-    }
+        );
+    }, []);
 
+    // Right now avatar, userName, and other parts of Post Components are broken
+    // This is due to a database bug that will be fixed once Auth0 is integrated with Firebase
     return (
         <div>
-            {Object.keys(posts).map((post) => {
-                return <Post
-                    key={post}
-                    image={posts[post].image}
-                    user={users[posts[post].username]}
-                    caption={posts[post].caption}
-                    likes={posts[post].likeCount}/>
-            })}
+            {userData &&
+                Object.values(postData).map((post) => {
+                    return (
+                        <Post
+                            key={post}
+                            image={post.image}
+                            user={userData[post.userName]}
+                            caption={post.caption}
+                            likes={post.likeCount}
+                        />
+                    );
+                })}
         </div>
-    )
+    );
 }
 
-export default Posts
+export default Posts;
