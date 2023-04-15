@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         'social-blue': '#66BFBF',
-        'social pink': '#FD7BAD'
+        'social-pink': '#FD7BAD'
       }
     },
   },

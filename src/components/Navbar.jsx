@@ -1,21 +1,26 @@
+import { useState } from 'react'
+
 import { Link } from 'react-router-dom';
 
 import { navIcons } from '../data/constants';
 import userIcon from '../images/user.svg';
 
 const Navbar = () => {
+    
+    const [activeNav, setActiveNav] = useState('feed');
+    
     return (
         <>
-            <div className="flex flex-col justify-between w-full gap-6 px-6 pt-6 pb-3 bg-white shadow-md ">
-                <div className="flex justify-between">
-                    <div className="text-lg font-extrabold leading-4">
+            <div className="flex flex-col justify-between w-full bg-white shadow-md ">
+                <div className="flex justify-between mx-6 mt-6 mb-4">
+                    <div className="text-lg font-extrabold leading-5">
                         <span>Outfit</span>
                         <br />
                         <span className="text-social-blue">Social App</span>
                     </div>
-                    <Link to="/Auth">
+                    <Link to="/auth">
                         <img
-                            className="w-8"
+                            className="w-9"
                             src={userIcon}
                             alt="user account icon"
                         />
@@ -23,31 +28,37 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex-1 text-md">
-                    <ul className="flex justify-between">
-                        <li className="flex gap-2">
+                    <ul className="flex">
+                        <Link to='/feed' onClick={() => {setActiveNav('feed')} }
+                            className={"flex justify-center p-2 gap-2 flex-1 rounded-tr-lg " 
+                            + (activeNav == 'feed' && 'bg-gray-200')}>
                             <img
                                 className="w-5"
                                 src={navIcons.feed}
                                 alt="magnifying glass with circle around it"
                             />
                             <span>Feed</span>
-                        </li>
-                        <li className="flex gap-2">
+                        </Link>
+                        <Link to='/create' onClick={() => {setActiveNav('create')}} 
+                            className={"flex justify-center p-2 gap-2 flex-1 rounded-t-lg " 
+                            + (activeNav == 'create' && 'bg-gray-200')}>
                             <img
                                 className="w-5"
                                 src={navIcons.create}
                                 alt="plus sign with circle around it"
                             />
                             <span>Create</span>
-                        </li>
-                        <li className="flex gap-2">
+                        </Link>
+                        <Link to='/generate' onClick={() => {setActiveNav('generate')}} 
+                            className={"flex justify-center p-2 gap-2 flex-1 rounded-tl-lg " 
+                            + (activeNav == 'generate' && 'bg-gray-200')}>
                             <img
                                 className="w-5"
                                 src={navIcons.generate}
                                 alt="generate/restart symbol"
                             />
                             <span>Generate</span>
-                        </li>
+                        </Link>
                     </ul>
                 </div>
             </div>
