@@ -1,9 +1,3 @@
-
-
 export const Navbar = () => {
-  return (
-    <div className="flex">
-        
-    </div>
-  )
-}
+  return <div className="flex"></div>;
+};
