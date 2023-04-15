@@ -1,22 +1,21 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/storage';
-import { firebase, auth, db, storage } from './firebase';
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
 
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://support.google.com/firebase/answer/7015592
 const firebaseConfig = {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_AUTH_DOMAIN',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID',
-};
+    apiKey: `${import.meta.env.VITE_FIREBASE_API_KEY}`,
+    authDomain: 'outfit-social-app.firebaseapp.com',
+    projectId: 'outfit-social-app',
+    storageBucket: 'outfit-social-app.appspot.com',
+    messagingSenderId: `${import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID}`,
+    appId: `${import.meta.env.VITE_FIREBASE_APP_ID}`,
+    measurementId: `${import.meta.env.VITE_FIREBASE_MEASUREMENT_ID}`,
+}
 
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
-
-export { firebase, auth, db, storage };
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app)
+export { db }
