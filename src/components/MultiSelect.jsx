@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 
 import { clothingOptions } from "../data/constants"
 
 import arrow from "../images/arrow.svg"
-import search from '../images/search.svg'
 import x from '../images/x.svg'
 
 function MultiSelect() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [selectedCat, setSelectedCat] = useState('Tops')//categories
     const [selectedItems, setSelectedItems] = useState({})
-    const [searchVal, setSearchVal] = useState('')
-
-    const handleInput = (e) => {
-        setSearchVal(e.target.value)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(searchVal)
-    }
 
     const handleCheck = (e, currItem) => {
         if(e?.target?.checked){
@@ -38,7 +27,7 @@ function MultiSelect() {
         <div className="w-full flex flex-col gap-2">
             <h1 className="font-bold">Multi-select</h1>
             <div className={'relative overflow-hidden w-full bg-gray-100 rounded-3xl px-4 py-3 flex flex-col gap-3 ' 
-            + (menuOpen ? 'h-auto items-start ' : 'h-13 items-center ')}>
+            + (menuOpen ? 'h-auto items-start ' : 'h-13 items-start ')}>
                 <div className="flex justify-between w-full max-w-sm">
                     {!Object.keys(selectedItems).length ? 
                     <p className="text-gray-400 text-sm">Choose a tag.</p> :
