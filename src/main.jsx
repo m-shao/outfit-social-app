@@ -41,8 +41,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Auth0Provider
-            domain='dev-v5djzzakn15w7hfd.us.auth0.com'
-            clientId='PtYuuqqop3UyisfnnU2TozOiLlWiDNOK'
+            domain={process.env.REACT_APP_AUTH_DOMAIN}
+            clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
             authorizationParams={{
                 redirect_uri: window.location.origin,
             }}
