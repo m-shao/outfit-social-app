@@ -1,11 +1,15 @@
 import { useState } from 'react';
 
+import Carousel from './Carousel';
+
 import bot20 from '../images/bot20.svg';
 import bot30 from '../images/bot30.svg';
 import top20 from '../images/top20.svg';
 import top30 from '../images/top30.svg';
 import top40 from '../images/top40.svg';
 import top50 from '../images/top50.svg';
+
+import { clothingImages } from '../data/constants';
 
 function OutfitGeneration({temp}) {
     
@@ -91,16 +95,8 @@ function OutfitGeneration({temp}) {
 
 
 
-    const getImage =  (num) => {
-        if (num === '20') {
-            return top20;
-        } else if (num === '30') {
-            return top30;
-        } else if (num === '40') {
-            return top40;
-        } else if (num === '50') {
-            return top50;
-        }
+    const getImage = (piece) => {
+        return clothingImages[piece]
     }
     return (
         <div className='flex flex-col text-lg mt-6 gap-8'>
@@ -119,19 +115,18 @@ function OutfitGeneration({temp}) {
                         <h1>&emsp;{outfit.bottom}</h1>
                     </div>
                 </div>
-                <div>
+                <div className='flex flex-col gap-8'>
                     <div className='flex gap-3'>
                         <h1 className='text-xl font-bold'>Top: </h1>
-                        {outfit.topNums.map((number, index) => {
-                            const image = getImage(number);
-                            return <img key={index} src={image} />
+                        {outfit.top.map((piece, index) => {
+                            const image = getImage(piece);
+                            return <img className='h-32' key={index} src={image} />
                         })}
                     </div>
                     <div className='flex gap-3'>
                         <h1 className='text-xl font-bold mr-1'>Bot: </h1>
-                        <img src={outfit.bottom == 'shorts' ? bot20 : bot30} />
+                        <img className='h-32' src={getImage(outfit.bottom)} />
                     </div>
-                    
                 </div>
             </div>}
         </div>
