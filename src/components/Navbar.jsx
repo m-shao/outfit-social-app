@@ -41,7 +41,7 @@ const Navbar = () => {
                 <div className="flex justify-between mx-6 mt-6 mb-4">
                     <div className="text-lg font-extrabold leading-5 flex gap-3">
                         <img className='inline w-12' src={logo} alt="" />
-                        <div lassName="inline text-lg font-extrabold leading-5">
+                        <div className="inline text-lg font-extrabold leading-5">
                             <span>Outfit</span>
                             <br />
                             <span className="text-social-blue">Social App</span>
