@@ -33,10 +33,42 @@ We can use these variables from open-meteo to process what the user should wear
 -   Weathercode - general weather conditions - advise users to wear appropriate clothing for the weather (e.g., sunny, cloudy, rainy, etc.).
 
 ## Data
-Data management is done with Firebase, through collections.
+Data management is done with Firebase, through collections, specifically `users` and `posts`,
+
+All references to `user` (not `users` (the collection)) in the code are from: 
+```JavaScript 
+const { user, isAuthenticated, isLoading } = useAuth0();
+```
+
+Sample User Data structure:
+```JavaScript
+const userData = {
+    bio: biography, // string
+    liked_posts: [], // array
+    password: '', // string
+    pfp: user?.picture, // string (link)
+    posts: [], // array
+    email: user?.email, // string
+    userName: user?.name, //string
+};
+```
+
+Sample Post Data structure:
+```JavaScript
+const postData = {
+    caption: caption, // string
+    comments: [], // array of objects
+    image: imageRef, // ref from cloud storage
+    likeCount: 0, // integer
+    pfp: user.picture, // string (link)
+    tags: [], // array 
+    userName: user.name, // string
+    links: affiliateLinks, // array of objects
+};
+```
 
 ### Read
-firebaseConfig.js exposes the `retrieveData()` function which can be called with a `collectionName` (`users` or `posts`). THe function returns an object with the data.
+firebaseConfig.js exposes the `retrieveData()` function which can be called with a `collectionName` (`users` or `posts`). The function returns an object with the data.
 ```JavaScript
 import { useEffect, useState } from 'react';
 const [userData, setUserData] = useState();
@@ -63,3 +95,26 @@ getDocs(usersRef).then((querySnapshot) => {
     })
 })
 ```
+
+### Write
+Writing to the firebase is much easier as it is a one liner.
+Given data (`NEW_DATA`) simply use the following to push to `COLLECTION_NAME` (`users` or `posts`):
+```JavaScript
+addDoc(collection(database, COLLECTION_NAME), NEW_DATA);
+```
+
+## Cloud Storage (Images)
+For all posts (creation or display) Firestore Cloud Storage is used.
+
+### Create
+```JavaScript
+const file = fileInputRef.current.files[0]; // fileInputRef is a ref to a file-selector HTML input
+const storageRef = ref(storage, Date.now() + user.name); // create unique ID reference to image
+// Upload image and get downloadable URL this URL is then returned and can be used to load image
+let imageRef = uploadBytes(storageRef, file).then(async (snapshot) => {
+    return await getDownloadURL(snapshot.ref);
+});
+return imageRef;
+```
+### Read
+*Image reading* is not really required, as long the downlodable URL is there. It can simply be used in an `<img/>` element.
