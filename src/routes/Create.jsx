@@ -1,11 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
-import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../firebaseConfig';
+import { useState, useRef } from 'react';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { database, storage } from '../firebaseConfig';
 import { useAuth0 } from '@auth0/auth0-react';
 import MultiSelect from '../components/MultiSelect';
 
 import upload from '../images/upload.svg';
 import create from '../images/create.svg';
+import { addDoc, collection } from 'firebase/firestore';
+import { redirect } from 'react-router-dom';
 
 function Create() {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -16,19 +18,22 @@ function Create() {
     const [addLinkActive, setAddLinkActive] = useState(false);
     const [selectedItems, setSelectedItems] = useState({});
 
-    const handleClothingChange= (e) => {
+    const handleClothingChange = (e) => {
         setClothingTypeText(e.target.value);
-    }
-    const handleLinkChange= (e) => {
+    };
+    const handleLinkChange = (e) => {
         setLinkText(e.target.value);
-    }
-    const handleSubmit = (e) => {
+    };
+    const handleLinkSubmit = (e) => {
         e.preventDefault();
-        setAffiliateLinks([...affiliateLinks, {clothingType: clothingTypeText, link: linkText}]);
+        setAffiliateLinks([
+            ...affiliateLinks,
+            { clothingType: clothingTypeText, link: linkText },
+        ]);
         setClothingTypeText('');
         setLinkText('');
         setAddLinkActive(false);
-    }
+    };
 
     const [caption, setCaption] = useState('');
     const fileInputRef = useRef(null);
@@ -42,7 +47,6 @@ function Create() {
 
     async function createPost() {
         await user;
-        console.log(user);
         let imageRef = await uploadImage();
         // FIXME: Tags need to be fixed https://github.com/m-shao/outfit-social-app/issues/21
         const postData = {
@@ -53,14 +57,19 @@ function Create() {
             pfp: user.picture,
             tags: [],
             userName: user.name,
+            links: affiliateLinks,
         };
+        addDoc(collection(database, 'posts'), postData);
+        redirect('/');
     }
     async function uploadImage() {
         await user;
         const file = fileInputRef.current.files[0];
         const storageRef = ref(storage, Date.now() + user.name);
-        uploadBytes(storageRef, file);
-        return storageRef;
+        let imageRef = uploadBytes(storageRef, file).then(async (snapshot) => {
+            return await getDownloadURL(snapshot.ref);
+        });
+        return imageRef;
     }
     function displayImage() {
         const file = fileInputRef.current.files[0];
@@ -109,39 +118,64 @@ function Create() {
                     ></textarea>
                 </div>
 
-                <div className="flex flex-col gap-8 w-full">
+                <div className="flex flex-col w-full gap-8">
                     <h1 className="text-xl">Affiliate/Clothing Links</h1>
-                    <div className='border-b pb-4 flex flex-col gap-3'>
+                    <div className="flex flex-col gap-3 pb-4 border-b">
                         {affiliateLinks.map((entry, index) => (
-                            <div key={index} className='flex gap-2'>
+                            <div key={index} className="flex gap-2">
                                 <h3>{entry.clothingType}:</h3>
-                                <a target='_blank' className='text-social-blue flex-1' 
-                                    href={entry.link? entry.link : null}>{entry.link}</a>
+                                <a
+                                    target="_blank"
+                                    className="flex-1 text-social-blue"
+                                    href={entry.link ? entry.link : null}
+                                >
+                                    {entry.link}
+                                </a>
                             </div>
                         ))}
                     </div>
-                    {addLinkActive && 
-                        <form onSubmit={handleSubmit} className='flex flex-col gap-3 border-b pb-4 w-full'>
-                            <div className='flex gap-2'>
+                    {addLinkActive && (
+                        <form
+                            onSubmit={handleLinkSubmit}
+                            className="flex flex-col w-full gap-3 pb-4 border-b"
+                        >
+                            <div className="flex gap-2">
                                 <label>Clothing Type</label>
-                                <input value={clothingTypeText && clothingTypeText} onChange={handleClothingChange} className='border' type="text" />
+                                <input
+                                    value={clothingTypeText && clothingTypeText}
+                                    onChange={handleClothingChange}
+                                    className="border"
+                                    type="text"
+                                />
                             </div>
-                            <div className='flex gap-2'>
+                            <div className="flex gap-2">
                                 <label>Insert Link</label>
-                                <input value={linkText && linkText} onChange={handleLinkChange} className='border' type="url" />
+                                <input
+                                    value={linkText && linkText}
+                                    onChange={handleLinkChange}
+                                    className="border"
+                                    type="url"
+                                />
                             </div>
-                            <button type='submit' className='px-2 py-1 w-24 bg-social-blue text-white rounded-full'>
+                            <button
+                                type="submit"
+                                className="w-24 px-2 py-1 text-white rounded-full bg-social-blue"
+                            >
                                 Submit
                             </button>
                         </form>
-                    }
+                    )}
                     <div>
-                        <button onClick={() => {setAddLinkActive(true)}} className='flex gap-1 items-center'>
+                        <button
+                            onClick={() => {
+                                setAddLinkActive(true);
+                            }}
+                            className="flex items-center gap-1"
+                        >
                             <h3>Add new link</h3>
-                            <img className='w-6' src={create} alt="" />
+                            <img className="w-6" src={create} alt="" />
                         </button>
                     </div>
-                    
                 </div>
                 <MultiSelect 
                     selectedItems={selectedItems}
@@ -150,7 +184,7 @@ function Create() {
                 <div className=''>
                     <button className='bg-social-blue px-4 py-2 text-white rounded-full' onClick={createPost}>Create Post</button>
                 </div>
-                <div className='h-40'></div>
+                <div className="h-40"></div>
             </div>
         </div>
     );
