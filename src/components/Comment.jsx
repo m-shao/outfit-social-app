@@ -1,18 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-function Comment({pfp, username, date, content}) {
-  return (
-    <div className='flex flex-col mt-3 gap-2'>
-        <div className='flex gap-1'>
-            <img className='rounded-full w-5 aspect-square object-cover' src={pfp} alt="" />
-            <p>{username}</p>
+function Comment({ pfp, username, date, content }) {
+    return (
+        <div className="flex flex-row gap-2 mt-3">
+            <div className="flex gap-1">
+                <img
+                    className="object-cover w-5 rounded-full aspect-square"
+                    src={pfp}
+                    alt=""
+                />
+                <p>{username}</p>
+            </div>
+            <div>
+                <p className="text-xs">&emsp;{content}</p>
+            </div>
+            <div className="border-b"></div>
         </div>
-        <div>
-            <p className='text-xs'>&emsp;{content}</p>
-        </div>
-        <div className='border-b'></div>
-    </div>
-  )
+    );
 }
 
-export default Comment
+export default Comment;

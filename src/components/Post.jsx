@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { database } from '../firebaseConfig';
+import { retrieveData } from '../firebaseConfig';
+
 import Comment from './Comment';
 
 import send from '../images/send.svg';
@@ -14,15 +16,16 @@ function Post({ post, id }) {
         pfp,
         tags,
         userName,
-        affiliateLinks,
+        links,
     } = post;
-    const numberOfCommentsShownPerClick = 2;
+    const numberOfCommentsShownPerClick = 3;
     const [liked, setLiked] = useState();
     const [likedCounter, setLikedCounter] = useState(likeCount); //local counter
-    const [commentCount, setCommentCount] = useState(0);
+    const [commentList, setCommentList] = useState(comments);
+    const [commentsDisplay, setCommentsDisplay] = useState(false);
+    const [newComment, setNewComment] = useState('');
     const [linksOpen, setLinksOpen] = useState(false);
-
-    const [comment, setComment] = useState('');
+    const affiliateLinks = links;
 
     const changeLike = async () => {
         const postRef = doc(database, 'posts', id);
@@ -45,27 +48,34 @@ function Post({ post, id }) {
         setLiked((prev) => !prev);
     };
 
-    const changeCommentCount = () => {
-        if (commentCount >= Object.keys(comments).length) {
-            setCommentCount(0);
-        } else {
-            setCommentCount((prev) => prev + numberOfCommentsShownPerClick);
-        }
+    const displayComments = () => {
+        setCommentsDisplay(!commentsDisplay);
+        console.log(commentsDisplay);
     };
 
     const handleCommentChange = (event) => {
-        setComment(event.target.value);
-    }
+        setNewComment(event.target.value);
+    };
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
-        // idk if this is right, copilot gave it to me 
-        //const postRef = doc(database, 'posts', id);
-        // updateDoc(postRef, {
-        //     comments: [...comments, comment]
-        // })
-        setComment('');
-    }
+
+        const postRef = doc(database, 'posts', id);
+
+        updateDoc(postRef, {
+            comments: arrayUnion({
+                userName: userName,
+                content: newComment,
+                date: Date.now(),
+                pfp: pfp,
+            }),
+        }).then(() => {
+            setNewComment('');
+            retrieveData('posts').then((results) => {
+                setCommentList(results[id]['comments']);
+            });
+        });
+    };
 
     return (
         <div className="flex flex-col w-full gap-3 my-8">
@@ -77,7 +87,6 @@ function Post({ post, id }) {
                 />
                 <h1>{userName}</h1>
             </div>
-
             <div className="relative w-full">
                 <img className="w-full rounded-lg" src={image} alt="" />
                 {/* Display affiliate links CONTAINER, only if they exist, then display liks themselves when click*/}
@@ -108,7 +117,6 @@ function Post({ post, id }) {
                     </>
                 )}
             </div>
-
             <div className="flex gap-4">
                 <svg
                     onClick={changeLike}
@@ -130,33 +138,47 @@ function Post({ post, id }) {
             </div>
             <h1>liked by {likedCounter} people</h1>
             <h1 className="text-sm text-gray-400">{caption}</h1>
-            <form onSubmit={onSubmit}>
-                <input value={comment} onChange={handleCommentChange} placeholder='Add Comment' className='border text-xs p-2 w-full' type="text" />
+            <div className="border-b"></div>{' '}
+            <form onSubmit={onSubmit} className="flex flex-row items-center">
+                <input
+                    value={newComment}
+                    onChange={handleCommentChange}
+                    placeholder="Add Comment"
+                    className="flex-grow p-2 text-sm border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="text"
+                />
+                <button
+                    type="submit"
+                    className="px-4 py-2 text-white bg-blue-500 rounded-r hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    Submit
+                </button>
             </form>
             <div className="text-sm">
-                <div className={'flex flex-col'}>
-                    {comments &&
-                        Object.keys(comments)
-                            .slice(0, commentCount)
-                            .map((user, index) => (
-                                <Comment
-                                    key={index}
-                                    username={user}
-                                    date={comments[user].date}
-                                    content={comments[user].content}
-                                    pfp={comments[user].pfp}
-                                />
-                            ))}
-                </div>
-                {Object.getOwnPropertyNames(comments).length > 0 && (
-                    <button className="mt-3" onClick={changeCommentCount}>
+                {commentList.length > 0 && (
+                    <button className="mt-3" onClick={displayComments}>
                         <h3>
-                            {commentCount >= Object.keys(comments).length
-                                ? 'Hide all comments'
-                                : 'View more comments...'}
+                            {commentsDisplay
+                                ? 'Hide comments'
+                                : 'View comments...'}
                         </h3>
                     </button>
                 )}
+                <div className="flex flex-col overflow-y-auto max-h-20">
+                    {commentList &&
+                        commentsDisplay == true &&
+                        commentList
+                            .slice(1, -1)
+                            .map((comment, index) => (
+                                <Comment
+                                    key={index}
+                                    username={comment.username}
+                                    date={comment.date}
+                                    content={comment.content}
+                                    pfp={comment.pfp}
+                                />
+                            ))}
+                </div>
             </div>
             <div className="border-b"></div>
         </div>
