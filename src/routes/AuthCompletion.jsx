@@ -9,7 +9,9 @@ function AuthCompletion() {
     const handleBioChange = (event) => {
         setBiography(event.target.value);
     };
-    const setData = (redirect = false) => {
+
+    const setData = async (redirect = false) => {
+        await user;
         const userData = {
             bio: biography,
             liked_posts: [],
