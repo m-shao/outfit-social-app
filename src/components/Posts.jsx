@@ -26,10 +26,10 @@ function Posts() {
     return (
         <div>
             {userData &&
-                Object.values(postData).map((post) => {
+                Object.values(postData).map((post, index) => {
                     return (
                         <Post
-                            key={post}
+                            key={index}
                             image={post.image}
                             user={userData[post.userName]}
                             caption={post.caption}
