@@ -43,10 +43,6 @@ export default function App() {
                 <div className="max-w-md mx-auto px-6 py-8 bg-white rounded-lg shadow-lg">
                     {location ? (
                         <div>
-                            <p className="text-xl font-semibold mb-4">
-                                Your location is {location.longitude},{' '}
-                                {location.latitude}
-                            </p>
                             {weather && weather.current_weather && (
                                 <div>
                                     <p>
