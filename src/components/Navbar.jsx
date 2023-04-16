@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -9,8 +9,31 @@ import userIcon from '../images/user.svg';
 
 const Navbar = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const [profileOption, setProfileOption] = useState(<LoginButton />);
     const [activeNav, setActiveNav] = useState('feed');
-    console.log(isAuthenticated);
+
+    useEffect(() => {
+        const updateProfileOption = async () => {
+            await user;
+            console.log('breh');
+            if (isAuthenticated) {
+                setProfileOption(
+                    <Link to="/profile">
+                        <img
+                            className="w-8 rounded-full"
+                            src={user.picture}
+                            alt="user account icon"
+                        />
+                    </Link>
+                );
+            } else {
+                setProfileOption(<LoginButton />);
+            }
+        };
+
+        updateProfileOption();
+    }, [isAuthenticated, user]);
+
     return (
         <>
             <div className="bg-black lg:w-1/4 lg:max-w-sm lg:h-screen"></div>
@@ -21,17 +44,7 @@ const Navbar = () => {
                         <br />
                         <span className="text-social-blue">Social App</span>
                     </div>
-                    {isAuthenticated ? (
-                        <Link to="/profile">
-                            <img
-                                className="w-8 rounded-full"
-                                src={user.picture}
-                                alt="user account icon"
-                            />
-                        </Link>
-                    ) : (
-                        <LoginButton />
-                    )}
+                    {profileOption}
                 </div>
 
                 <div className="flex-1 text-md ">

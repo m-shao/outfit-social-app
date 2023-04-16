@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, getDocs, setDoc, collection } from 'firebase/firestore';
+import { getStorage, ref } from 'firebase/storage';
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://support.google.com/firebase/answer/7015592
@@ -11,6 +12,7 @@ const firebaseConfig = {
     messagingSenderId: `${import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID}`,
     appId: `${import.meta.env.VITE_FIREBASE_APP_ID}`,
     measurementId: `${import.meta.env.VITE_FIREBASE_MEASUREMENT_ID}`,
+    storageBucket: 'gs://outfit-social-app.appspot.com',
 };
 
 // Initialize Firebase
@@ -18,6 +20,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
 const database = getFirestore(app);
+const storage = getStorage(app);
 
 function retrieveData(collectionName) {
     let results = {};
@@ -54,4 +57,4 @@ function appendUserData(userName, data) {
 function appendPostData(data) {
     addDoc(collection(db, collectionName), data).then((docRef) => {});
 }
-export { database, retrieveData, validateUser };
+export { database, storage, retrieveData, validateUser };
