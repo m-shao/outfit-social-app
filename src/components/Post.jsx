@@ -22,6 +22,8 @@ function Post({ post, id }) {
     const [commentCount, setCommentCount] = useState(0);
     const [linksOpen, setLinksOpen] = useState(false);
 
+    const [comment, setComment] = useState('');
+
     const changeLike = async () => {
         const postRef = doc(database, 'posts', id);
         // Don't ask me. This is the most REVERSE logic I've seen
@@ -50,6 +52,20 @@ function Post({ post, id }) {
             setCommentCount((prev) => prev + numberOfCommentsShownPerClick);
         }
     };
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+    }
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        // idk if this is right, copilot gave it to me 
+        //const postRef = doc(database, 'posts', id);
+        // updateDoc(postRef, {
+        //     comments: [...comments, comment]
+        // })
+        setComment('');
+    }
 
     return (
         <div className="flex flex-col w-full gap-3 my-8">
@@ -114,6 +130,9 @@ function Post({ post, id }) {
             </div>
             <h1>liked by {likedCounter} people</h1>
             <h1 className="text-sm text-gray-400">{caption}</h1>
+            <form onSubmit={onSubmit}>
+                <input value={comment} onChange={handleCommentChange} placeholder='Add Comment' className='border text-xs p-2 w-full' type="text" />
+            </form>
             <div className="text-sm">
                 <div className={'flex flex-col'}>
                     {comments &&
