@@ -17,6 +17,8 @@ function Create() {
     const [affiliateLinks, setAffiliateLinks] = useState([]);
     const [addLinkActive, setAddLinkActive] = useState(false);
     const [selectedItems, setSelectedItems] = useState({});
+    const [caption, setCaption] = useState('');
+    const fileInputRef = useRef(null);
 
     const handleClothingChange = (e) => {
         setClothingTypeText(e.target.value);
@@ -34,10 +36,6 @@ function Create() {
         setLinkText('');
         setAddLinkActive(false);
     };
-
-    const [caption, setCaption] = useState('');
-    const fileInputRef = useRef(null);
-
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
     };
@@ -55,13 +53,14 @@ function Create() {
             image: imageRef,
             likeCount: 0,
             pfp: user.picture,
-            tags: [],
+            tags: selectedItems,
             userName: user.name,
             links: affiliateLinks,
         };
         addDoc(collection(database, 'posts'), postData);
         redirect('/');
     }
+
     async function uploadImage() {
         await user;
         const file = fileInputRef.current.files[0];
@@ -71,6 +70,7 @@ function Create() {
         });
         return imageRef;
     }
+
     function displayImage() {
         const file = fileInputRef.current.files[0];
         const reader = new FileReader();
@@ -107,7 +107,7 @@ function Create() {
                     />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-xl ">Caption</h1>
+                    <h1 className="text-xl font-bold">Caption</h1>
                     <textarea
                         className="w-full h-64 p-4 border-2 border-gray-400 rounded-xl"
                         id=""
@@ -118,9 +118,11 @@ function Create() {
                     ></textarea>
                 </div>
 
-                <div className="flex flex-col w-full gap-8">
-                    <h1 className="text-xl">Affiliate/Clothing Links</h1>
-                    <div className="flex flex-col gap-3 pb-4 border-b">
+                <div className="flex flex-col w-full gap-4">
+                    <h1 className="text-xl font-bold">
+                        Affiliate/Clothing Links
+                    </h1>
+                    <div className="flex flex-col gap-3 p-3 border">
                         {affiliateLinks.map((entry, index) => (
                             <div key={index} className="flex gap-2">
                                 <h3>{entry.clothingType}:</h3>
@@ -180,6 +182,7 @@ function Create() {
                 <MultiSelect
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
+                    title="Choose Tags"
                 />
                 <div className="">
                     <button
