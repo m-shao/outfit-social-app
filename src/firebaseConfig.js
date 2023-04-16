@@ -41,20 +41,13 @@ function retrieveData(collectionName) {
 }
 
 async function validateUser(userName) {
-    const users = retrieveData('users');
-
-    return Object.keys(await users).map((user) => {
-        if (user == userName) {
+    const users = await retrieveData('users');
+    for (const user of Object.keys(users)) {
+        if (user === userName) {
             return true;
         }
-    });
+    }
+    return false;
 }
 
-function appendUserData(userName, data) {
-    setDoc(doc(database, 'users', userName), data);
-}
-
-function appendPostData(data) {
-    addDoc(collection(db, collectionName), data).then((docRef) => {});
-}
 export { database, storage, retrieveData, validateUser };
