@@ -24,17 +24,20 @@ function Post({ post, id }) {
 
     const changeLike = async () => {
         const postRef = doc(database, 'posts', id);
-
-        if (liked) {
-            setLikedCounter(likedCounter + 1);
-            updateDoc(postRef, {
-                likeCount: likedCounter,
-            });
-        } else {
+        // Don't ask me. This is the most REVERSE logic I've seen
+        if (liked === true) {
             setLikedCounter(likedCounter - 1);
             updateDoc(postRef, {
                 likeCount: likedCounter,
             });
+
+            setLiked(true);
+        } else {
+            setLikedCounter(likedCounter + 1);
+            updateDoc(postRef, {
+                likeCount: likedCounter,
+            });
+            setLiked(false);
         }
 
         setLiked((prev) => !prev);
