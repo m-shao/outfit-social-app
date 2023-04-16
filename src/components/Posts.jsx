@@ -26,16 +26,9 @@ function Posts() {
     return (
         <div>
             {userData &&
-                Object.values(postData).map((post, index) => {
-                    return (
-                        <Post
-                            key={index}
-                            image={post.image}
-                            user={userData[post.userName]}
-                            caption={post.caption}
-                            likes={post.likeCount}
-                        />
-                    );
+                Object.keys(postData).map((key) => {
+                    const post = postData[key];
+                    return <Post key={key} post={post} id={key} />;
                 })}
         </div>
     );

@@ -1,51 +1,45 @@
 import { useState } from 'react';
-
+import { doc, updateDoc } from 'firebase/firestore';
+import { database } from '../firebaseConfig';
 import Comment from './Comment';
 
 import send from '../images/send.svg';
-import pfp from '../images/pfp.png';
 
-function Post({ image, user, caption, likes }) {
+function Post({ post, id }) {
+    let {
+        caption,
+        comments,
+        image,
+        likeCount, // FIXME: Either renamed likedCounter or likeCounter (in db) to avoid confusion
+        pfp,
+        tags,
+        userName,
+        affiliateLinks,
+    } = post;
     const numberOfCommentsShownPerClick = 2;
     const [liked, setLiked] = useState();
+    const [likedCounter, setLikedCounter] = useState(likeCount); //local counter
     const [commentCount, setCommentCount] = useState(0);
     const [linksOpen, setLinksOpen] = useState(false);
 
-    const comments = {
+    /*     const comments = {
         user1: { date: '2023/04/15', content: 'HELLO I AM YOUR MOM', pfp: pfp },
-        user2: {
-            date: '2023/05/15',
-            content: 'This is the second comment',
-            pfp: pfp,
-        },
-        user3: { date: '2023/06/15', content: 'i hate mohammad', pfp: pfp },
-        user4: {
-            date: '2023/03/15',
-            content: 'reese is my best friend',
-            pfp: pfp,
-        },
-        user5: {
-            date: '2023/04/15',
-            content: 'INSERT mohammad comment here',
-            pfp: pfp,
-        },
-        user6: { date: '2023/02/15', content: 'canceled', pfp: pfp },
-        user7: {
-            date: '2023/01/15',
-            content: 'this is the last comment ever!',
-            pfp: pfp,
-        },
-    };
+    }; */
+    console.log(likedCounter);
+    const changeLike = async () => {
+        const postRef = doc(database, 'posts', id);
 
-    const affiliateLinks = [
-        {clothingType: 'Shorts', link: 'https://www.youtube.com/'},
-    ]
-
-    const changeLike = () => {
         if (liked) {
-            //remove from database(user's liked posts) incorporate Firebase addData function
+            setLikedCounter(likedCounter + 1);
+            console.log(likedCounter);
+            updateDoc(postRef, {
+                likeCount: likedCounter,
+            });
         } else {
-            //add to database(user's liked posts)
+            setLikedCounter(likedCounter - 1);
+            updateDoc(postRef, {
+                likeCount: likedCounter,
+            });
         }
 
         setLiked((prev) => !prev);
@@ -64,23 +58,41 @@ function Post({ image, user, caption, likes }) {
             <div className="flex items-center gap-2">
                 <img
                     className="object-cover h-10 rounded-full aspect-square"
-                    src={user?.pfp}
+                    src={pfp}
                     alt=""
                 />
-                <h1>{user?.userName}</h1>
+                <h1>{userName}</h1>
             </div>
 
-            <div className='w-full relative'>
-                <img className='w-full rounded-lg' src={image} alt="" />
-                <div onClick={() => {setLinksOpen(prev => !prev)}} className='absolute w-4 h-4 bg-white opacity-75 rounded-full bottom-2 right-2 z-10'></div>
-                {linksOpen && <div className='flex flex-col gap-3 p-2 absolute bottom-6 right-6 bg-white opacity-95 text-xs rounded-xl'>
-                    {affiliateLinks.map((entry, index) => (
-                        <div key={index} className='flex gap-2'>
-                            <h3>{entry.clothingType}:</h3>
-                            <a target='_blank' className='text-social-blue flex-1' href={entry.link}>{entry.link}</a>
-                        </div>
-                    ))}
-                </div>} 
+            <div className="relative w-full">
+                <img className="w-full rounded-lg" src={image} alt="" />
+                {/* Display affiliate links CONTAINER, only if they exist, then display liks themselves when click*/}
+                {affiliateLinks && (
+                    <>
+                        <div
+                            onClick={() => {
+                                setLinksOpen((prev) => !prev);
+                            }}
+                            className="absolute z-10 w-4 h-4 bg-white rounded-full opacity-75 bottom-2 right-2"
+                        ></div>
+                        {linksOpen && (
+                            <div className="absolute flex flex-col gap-3 p-2 text-xs bg-white bottom-6 right-6 opacity-95 rounded-xl">
+                                {affiliateLinks.map((entry, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <h3>{entry.clothingType}:</h3>
+                                        <a
+                                            target="_blank"
+                                            className="flex-1 text-social-blue"
+                                            href={entry.link}
+                                        >
+                                            {entry.link}
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
 
             <div className="flex gap-4">
@@ -102,22 +114,28 @@ function Post({ image, user, caption, likes }) {
                 </svg>
                 <img className="w-7" src={send} alt="" />
             </div>
-            <h1>liked by {likes} people</h1>
+            <h1>liked by {likedCounter} people</h1>
             <h1 className="text-sm text-gray-400">{caption}</h1>
-            <div className='text-sm'>
+            <div className="text-sm">
                 <div className={'flex flex-col'}>
-                    {Object.keys(comments).slice(0, commentCount).map((user, index) => (
-                        <Comment
-                            key={index}
-                            username={user}
-                            date={comments[user].date}
-                            content={comments[user].content}
-                            pfp={comments[user].pfp}
-                        />
-                    ))}
+                    {Object.keys(comments)
+                        .slice(0, commentCount)
+                        .map((user, index) => (
+                            <Comment
+                                key={index}
+                                username={user}
+                                date={comments[user].date}
+                                content={comments[user].content}
+                                pfp={comments[user].pfp}
+                            />
+                        ))}
                 </div>
-                <button className='mt-3' onClick={changeCommentCount}>
-                    <h3>{ commentCount >= Object.keys(comments).length ? 'Hide all comments' : 'View more comments...'}</h3>
+                <button className="mt-3" onClick={changeCommentCount}>
+                    <h3>
+                        {commentCount >= Object.keys(comments).length
+                            ? 'Hide all comments'
+                            : 'View more comments...'}
+                    </h3>
                 </button>
             </div>
             <div className="border-b"></div>
