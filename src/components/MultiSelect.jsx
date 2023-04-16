@@ -5,10 +5,9 @@ import { clothingOptions } from '../data/constants';
 import arrow from '../images/arrow.svg';
 import x from '../images/x.svg';
 
-function MultiSelect() {
+function MultiSelect({selectedItems, setSelectedItems}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [selectedCat, setSelectedCat] = useState('Tops'); //categories
-    const [selectedItems, setSelectedItems] = useState({});
 
     const handleCheck = (e, currItem) => {
         if (e?.target?.checked) {
