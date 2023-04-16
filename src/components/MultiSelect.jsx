@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-
 import { clothingOptions } from '../data/constants';
-
 import arrow from '../images/arrow.svg';
 import x from '../images/x.svg';
 
