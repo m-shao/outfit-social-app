@@ -8,7 +8,6 @@ import top40 from '../images/top40.svg';
 import top50 from '../images/top50.svg';
 
 function OutfitGeneration({temp}) {
-    temp=-20
     
     const [outfit, setOutfit] = useState(null)
 
