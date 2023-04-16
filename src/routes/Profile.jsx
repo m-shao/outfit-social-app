@@ -1,9 +1,19 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
+import { useEffect, useState } from 'react';
+import { retrieveData } from '../firebaseConfig';
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const [userData, setUserData] = useState();
+
+    useEffect(() => {
+        retrieveData('users').then((results) => {
+            setUserData(results);
+            console.log(results['Reese Chong']);
+        });
+    }, []);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -46,10 +56,12 @@ const Profile = () => {
                                             {user.email}
                                         </dd>
                                     </dl>
-                                    <dl className="border-4 bg-gray-200 mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
-                                        <dt className="sr-only">Bio</dt>
-                                        <dd className="flex items-center text-sm leading-5 text-gray-500 font-medium capitalize">
-                                            {user.bio}
+                                    <dl className="bg-gray-200 border-2 border-gray-300 rounded-md px-4 py-2 mt-6 max-w-2xl">
+                                        <dt className="text-lg font-medium">
+                                            Biography:
+                                        </dt>
+                                        <dd className="text-gray-600">
+                                            {userData['Reese Chong'].bio}
                                         </dd>
                                     </dl>
                                 </div>
