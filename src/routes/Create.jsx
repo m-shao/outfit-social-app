@@ -49,7 +49,6 @@ function Create() {
     async function createPost() {
         await user;
         let imageRef = await uploadImage();
-        // FIXME: Tags need to be fixed https://github.com/m-shao/outfit-social-app/issues/21
         const postData = {
             caption: caption,
             comments: [],
