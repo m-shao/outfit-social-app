@@ -1,10 +1,5 @@
 import Post from './Post';
 import { retrieveData } from '../firebaseConfig';
-import pfp from '../images/pfp.png';
-import woman from '../images/woman.png';
-
-import man from '../images/man.png';
-import pfp2 from '../images/pfp2.png';
 import { useEffect, useState } from 'react';
 
 function Posts() {

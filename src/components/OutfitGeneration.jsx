@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import bot20 from '../images/bot20.svg';
 import bot30 from '../images/bot30.svg';
 import top20 from '../images/top20.svg';
@@ -7,9 +9,12 @@ import top50 from '../images/top50.svg';
 
 function OutfitGeneration({temp}) {
     temp=-20
+    
+    const [outfit, setOutfit] = useState(null)
+
     const tops = {
         '20': ['Tshirt', 'Tshirt', 'Tshirt','Tshirt'],
-        '30': ['Hoodie', 'Windbreaker','Cardigan','Demin Jacket'],
+        '30': ['Hoodie', 'Windbreaker','Cardigan','Denim Jacket'],
         '40': ['Light Jacket', 'Thick Sweater','Leather Jacket','Sweatshirt'],
         '50': ['Heavy jacket', 'Long Coat','Trenchcoat','Winter Jacket'],
     }
@@ -78,7 +83,12 @@ function OutfitGeneration({temp}) {
         };
       }
     
-    const outfit = generateOutfit(temp);
+    
+    const onGenerate = () => {
+        setOutfit(generateOutfit(temp));
+    }
+
+
 
     const getImage =  (num) => {
         if (num === '20') {
@@ -92,32 +102,37 @@ function OutfitGeneration({temp}) {
         }
     }
     return (
-        <div className='flex flex-col text-lg mt-6 gap-4'>
-            <div>
-            <h1 className='text-xl font-bold'>Today Try Wearing:</h1>
-                <div>
-                    {outfit.top.map((item, index) => {
-                        return <h1 key={index}>&emsp;{item}</h1>
-                    })}
-                </div>
-                <div>
-                    <h1>&emsp;{outfit.bottom}</h1>
-                </div>
+        <div className='flex flex-col text-lg mt-6 gap-8'>
+            <div className='flex justify-center'>
+                <button onClick={onGenerate} className='bg-social-blue text-white px-4 py-1 rounded-full'>Generate Outfit</button>
             </div>
-            <div>
-                <div className='flex gap-3'>
-                    <h1 className='text-xl font-bold'>Top: </h1>
-                    {outfit.topNums.map((number, index) => {
-                        const image = getImage(number);
-                        return <img key={index} src={image} />
-                    })}
+            {outfit && <div className='flex flex-col gap-6'>
+                <div>
+                <h1 className='text-xl font-bold'>Today Try Wearing:</h1>
+                    <div>
+                        {outfit.top.map((item, index) => {
+                            return <h1 key={index}>&emsp;{item}</h1>
+                        })}
+                    </div>
+                    <div>
+                        <h1>&emsp;{outfit.bottom}</h1>
+                    </div>
                 </div>
-                <div className='flex gap-3'>
-                    <h1 className='text-xl font-bold mr-1'>Bot: </h1>
-                    <img src={outfit.bottom == 'shorts' ? bot20 : bot30} />
+                <div>
+                    <div className='flex gap-3'>
+                        <h1 className='text-xl font-bold'>Top: </h1>
+                        {outfit.topNums.map((number, index) => {
+                            const image = getImage(number);
+                            return <img key={index} src={image} />
+                        })}
+                    </div>
+                    <div className='flex gap-3'>
+                        <h1 className='text-xl font-bold mr-1'>Bot: </h1>
+                        <img src={outfit.bottom == 'shorts' ? bot20 : bot30} />
+                    </div>
+                    
                 </div>
-                
-            </div>
+            </div>}
         </div>
         
     )
