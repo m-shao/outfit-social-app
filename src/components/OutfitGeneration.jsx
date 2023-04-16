@@ -25,6 +25,8 @@ function OutfitGeneration({temp}) {
         '50': ['Pants', 'Sweatpants','Jeans','Cargo Pants'],
     }
 
+    const shoes = ['sneakers', 'boots', 'canvas shoes']
+
     const outfitsForTemp = {
         '-20': 
         [['20', '50'],
