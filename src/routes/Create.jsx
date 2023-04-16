@@ -114,7 +114,8 @@ function Create() {
                         {affiliateLinks.map((entry, index) => (
                             <div key={index} className='flex gap-2'>
                                 <h3>{entry.clothingType}:</h3>
-                                <a target='_blank' className='text-social-blue flex-1' href={entry.link}>{entry.link}</a>
+                                <a target='_blank' className='text-social-blue flex-1' 
+                                    href={entry.link? entry.link : null}>{entry.link}</a>
                             </div>
                         ))}
                     </div>
@@ -142,7 +143,10 @@ function Create() {
                     
                 </div>
                 <MultiSelect />
-                <button onClick={createPost}>Create Post</button>
+                <div className=''>
+                    <button className='bg-social-blue px-4 py-2 text-white rounded-full' onClick={createPost}>Create Post</button>
+                </div>
+                <div className='h-40'></div>
             </div>
         </div>
     );
