@@ -177,12 +177,17 @@ function Create() {
                         </button>
                     </div>
                 </div>
-                <MultiSelect 
+                <MultiSelect
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
                 />
-                <div className=''>
-                    <button className='bg-social-blue px-4 py-2 text-white rounded-full' onClick={createPost}>Create Post</button>
+                <div className="">
+                    <button
+                        className="px-4 py-2 text-white rounded-full bg-social-blue"
+                        onClick={createPost}
+                    >
+                        Create Post
+                    </button>
                 </div>
                 <div className="h-40"></div>
             </div>

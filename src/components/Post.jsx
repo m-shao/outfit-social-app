@@ -103,7 +103,7 @@ function Post({ image, user, caption, likes }) {
                 <img className="w-7" src={send} alt="" />
             </div>
             <h1>liked by {likes} people</h1>
-            <h1 className="text-sm text-gray-400 h-2">{caption}</h1>
+            <h1 className="text-sm text-gray-400">{caption}</h1>
             <div className='text-sm'>
                 <div className={'flex flex-col'}>
                     {Object.keys(comments).slice(0, commentCount).map((user, index) => (
