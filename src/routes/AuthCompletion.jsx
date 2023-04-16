@@ -40,7 +40,11 @@ function AuthCompletion() {
             // If user exists, navigate to home
             // else sync data and wait for bio
             await user;
+            if (isLoading) {
+                return;
+            }
             const userExists = await validateUser(user.name);
+
             if (userExists) {
                 navigate('/');
             } else if (user) {
@@ -53,24 +57,33 @@ function AuthCompletion() {
     }, [user, isAuthenticated, validateUser]);
 
     return (
-        <div>
-            {isLoading && 'Your account is loading!'}
+        <div className="p-4">
+            {isLoading && (
+                <p className="text-center">Your account is loading!</p>
+            )}
             {isAuthenticated && (
-                <>
-                    'Set up your account:' Profile Bio:
-                    <input
-                        type="text"
-                        value={biography}
-                        onChange={handleBioChange}
-                    />
+                <div className="flex flex-col space-y-4">
+                    <p>Set up your account:</p>
+                    <div className="flex flex-col space-y-2">
+                        <label className="text-sm font-medium text-gray-700">
+                            Profile Bio:
+                        </label>
+                        <input
+                            type="text"
+                            className="block w-full h-24 px-4 text-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            value={biography}
+                            onChange={handleBioChange}
+                        />
+                    </div>
                     <button
+                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={() => {
                             setData(true);
                         }}
                     >
                         Continue
                     </button>
-                </>
+                </div>
             )}
         </div>
     );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { database } from '../firebaseConfig';
 import { retrieveData } from '../firebaseConfig';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import Comment from './Comment';
 
@@ -25,6 +26,8 @@ function Post({ post, id }) {
     const [commentsDisplay, setCommentsDisplay] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [linksOpen, setLinksOpen] = useState(false);
+    const { user, isAuthenticated, isLoading } = useAuth0();
+
     const affiliateLinks = links;
 
     const changeLike = async () => {
@@ -64,10 +67,10 @@ function Post({ post, id }) {
 
         updateDoc(postRef, {
             comments: arrayUnion({
-                userName: userName,
+                userName: user.name,
                 content: newComment,
                 date: Date.now(),
-                pfp: pfp,
+                pfp: user.picture,
             }),
         }).then(() => {
             setNewComment('');

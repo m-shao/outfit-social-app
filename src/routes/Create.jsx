@@ -56,7 +56,7 @@ function Create() {
             image: imageRef,
             likeCount: 0,
             pfp: user.picture,
-            tags: selectedItems,
+            tags: Object.keys(selectedItems),
             userName: user.name,
             links: affiliateLinks,
         };
