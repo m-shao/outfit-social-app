@@ -69,23 +69,25 @@ const Navbar = () => {
                             />
                             <span>Feed</span>
                         </Link>
-                        <Link
-                            to="/create"
-                            onClick={() => {
-                                setActiveNav('create');
-                            }}
-                            className={
-                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-t-lg lg:rounded-none ' +
-                                (activeNav == 'create' && 'bg-gray-200')
-                            }
-                        >
-                            <img
-                                className="w-5"
-                                src={navIcons.create}
-                                alt="plus sign with circle around it"
-                            />
-                            <span>Create</span>
-                        </Link>
+                        {isAuthenticated && (
+                            <Link
+                                to="/create"
+                                onClick={() => {
+                                    setActiveNav('create');
+                                }}
+                                className={
+                                    'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-t-lg lg:rounded-none ' +
+                                    (activeNav == 'create' && 'bg-gray-200')
+                                }
+                            >
+                                <img
+                                    className="w-5"
+                                    src={navIcons.create}
+                                    alt="plus sign with circle around it"
+                                />
+                                <span>Create</span>
+                            </Link>
+                        )}
                         <Link
                             to="/generate"
                             onClick={() => {
