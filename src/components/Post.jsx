@@ -30,11 +30,15 @@ function Post({ post, id }) {
             updateDoc(postRef, {
                 likeCount: likedCounter,
             });
+            setLiked(true);
         } else {
-            setLikedCounter(likedCounter - 1);
-            updateDoc(postRef, {
-                likeCount: likedCounter,
-            });
+            if (likedCounter > 0) {
+                setLikedCounter(likedCounter - 1);
+                updateDoc(postRef, {
+                    likeCount: likedCounter,
+                });
+            }
+            setLiked(false);
         }
 
         setLiked((prev) => !prev);
