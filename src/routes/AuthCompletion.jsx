@@ -3,6 +3,7 @@ import { database, validateUser } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { redirect } from 'react-router-dom';
+
 function AuthCompletion() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [biography, setBiography] = useState('');

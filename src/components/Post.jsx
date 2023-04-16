@@ -9,6 +9,7 @@ function Post({ image, user, caption, likes }) {
     const numberOfCommentsShownPerClick = 2;
     const [liked, setLiked] = useState();
     const [commentCount, setCommentCount] = useState(0);
+    const [linksOpen, setLinksOpen] = useState(false);
 
     const comments = {
         user1: { date: '2023/04/15', content: 'HELLO I AM YOUR MOM', pfp: pfp },
@@ -35,6 +36,10 @@ function Post({ image, user, caption, likes }) {
             pfp: pfp,
         },
     };
+
+    const affiliateLinks = [
+        {clothingType: 'Shorts', link: 'https://www.youtube.com/'},
+    ]
 
     const changeLike = () => {
         if (liked) {
@@ -64,7 +69,20 @@ function Post({ image, user, caption, likes }) {
                 />
                 <h1>{user?.userName}</h1>
             </div>
-            <img src={image} alt="" />
+
+            <div className='w-full relative'>
+                <img className='w-full rounded-lg' src={image} alt="" />
+                <div onClick={() => {setLinksOpen(prev => !prev)}} className='absolute w-4 h-4 bg-white opacity-75 rounded-full bottom-2 right-2 z-10'></div>
+                {linksOpen && <div className='flex flex-col gap-3 p-2 absolute bottom-6 right-6 bg-white opacity-95 text-xs rounded-xl'>
+                    {affiliateLinks.map((entry, index) => (
+                        <div key={index} className='flex gap-2'>
+                            <h3>{entry.clothingType}:</h3>
+                            <a target='_blank' className='text-social-blue flex-1' href={entry.link}>{entry.link}</a>
+                        </div>
+                    ))}
+                </div>} 
+            </div>
+
             <div className="flex gap-4">
                 <svg
                     onClick={changeLike}
@@ -85,7 +103,23 @@ function Post({ image, user, caption, likes }) {
                 <img className="w-7" src={send} alt="" />
             </div>
             <h1>liked by {likes} people</h1>
-            <h1 className="text-sm text-gray-400">{caption}</h1>
+            <h1 className="text-sm text-gray-400 h-2">{caption}</h1>
+            <div className='text-sm'>
+                <div className={'flex flex-col'}>
+                    {Object.keys(comments).slice(0, commentCount).map((user, index) => (
+                        <Comment
+                            key={index}
+                            username={user}
+                            date={comments[user].date}
+                            content={comments[user].content}
+                            pfp={comments[user].pfp}
+                        />
+                    ))}
+                </div>
+                <button className='mt-3' onClick={changeCommentCount}>
+                    <h3>{ commentCount >= Object.keys(comments).length ? 'Hide all comments' : 'View more comments...'}</h3>
+                </button>
+            </div>
             <div className="border-b"></div>
         </div>
     );

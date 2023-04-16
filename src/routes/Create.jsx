@@ -12,7 +12,7 @@ function Create() {
     const [image, setImage] = useState(null);
     const [clothingTypeText, setClothingTypeText] = useState('');
     const [linkText, setLinkText] = useState('');
-    const [AffiliateLinks, setAffiliateLinks] = useState([]);
+    const [affiliateLinks, setAffiliateLinks] = useState([]);
     const [addLinkActive, setAddLinkActive] = useState(false);
 
     const handleClothingChange= (e) => {
@@ -23,7 +23,7 @@ function Create() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        setAffiliateLinks([...AffiliateLinks, {clothingType: clothingTypeText, link: linkText}]);
+        setAffiliateLinks([...affiliateLinks, {clothingType: clothingTypeText, link: linkText}]);
         setClothingTypeText('');
         setLinkText('');
         setAddLinkActive(false);
@@ -110,8 +110,8 @@ function Create() {
 
                 <div className="flex flex-col gap-8 w-full">
                     <h1 className="text-xl">Affiliate/Clothing Links</h1>
-                    <div className='border-b pb-6 flex flex-col gap-3'>
-                        {AffiliateLinks.map((entry, index) => (
+                    <div className='border-b pb-4 flex flex-col gap-3'>
+                        {affiliateLinks.map((entry, index) => (
                             <div key={index} className='flex gap-2'>
                                 <h3>{entry.clothingType}:</h3>
                                 <a target='_blank' className='text-social-blue flex-1' href={entry.link}>{entry.link}</a>
