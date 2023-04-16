@@ -62,7 +62,12 @@ const Profile = () => {
                                         <dt className="text-lg font-medium">
                                             Biography:
                                         </dt>
-                                        <dd className="text-gray-600">{bio}</dd>
+                                        <dd className="max-w-2xl px-4 py-2 mt-6 text-gray-600">
+                                            {bio}
+                                        </dd>
+                                    </dl>
+                                    <dl className="max-w-2xl py-2 mt-6">
+                                        <LogoutButton />
                                     </dl>
                                 </div>
                             </div>
@@ -70,7 +75,6 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <LogoutButton />
         </div>
     );
 };
