@@ -39,14 +39,13 @@ const Navbar = () => {
             <div className="bg-black lg:w-1/4 lg:max-w-sm lg:h-screen"></div>
             <div className="flex flex-col justify-between w-full bg-white shadow-md lg:w-1/4 lg:max-w-sm lg:h-screen lg:fixed">
                 <div className="flex justify-between mx-6 mt-6 mb-4">
-                    <div className="text-lg font-extrabold leading-5 flex gap-3">
-                        <img className='inline w-12' src={logo} alt="" />
+                    <div className="flex gap-3 text-lg font-extrabold leading-5">
+                        <img className="inline w-12" src={logo} alt="" />
                         <div className="inline text-lg font-extrabold leading-5">
                             <span>Outfit</span>
                             <br />
                             <span className="text-social-blue">Social App</span>
                         </div>
-                        
                     </div>
                     {profileOption}
                 </div>
