@@ -16,6 +16,14 @@ function Post({ post, id }) {
         userName,
         affiliateLinks,
     } = post;
+
+    affiliateLinks = [
+        {clothingType : 'Pants',
+        link : 'https://oldnavy.gapcanada.ca/'},
+        {clothingType : 'Flanel',
+        link : 'https://www.uniqlo.com/'},
+    ]
+    
     const numberOfCommentsShownPerClick = 2;
     const [liked, setLiked] = useState();
     const [likedCounter, setLikedCounter] = useState(likeCount); //local counter
