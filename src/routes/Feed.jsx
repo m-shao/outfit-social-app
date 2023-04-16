@@ -1,15 +1,23 @@
-import MultiSelect from "../components/MultiSelect"
-import Posts from "../components/Posts"
+import { useState } from 'react';
+
+import MultiSelect from '../components/MultiSelect';
+import Posts from '../components/Posts';
 
 function Feed() {
-  return (
-    <div className="p-6 flex w-full h-full justify-center box-border">
-        <div className="max-w-md w-full">
-            <MultiSelect />
-            <Posts />
+    const [selectedItems, setSelectedItems] = useState({});
+
+
+    return (
+        <div className="box-border flex justify-center w-full h-full p-6">
+            <div className="w-full max-w-md">
+                <MultiSelect 
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                />
+                <Posts />
+            </div>
         </div>
-    </div>
-  )
+    );
 }
 
-export default Feed
+export default Feed;
