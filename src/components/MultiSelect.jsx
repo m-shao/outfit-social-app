@@ -5,7 +5,11 @@ import { clothingOptions } from '../data/constants';
 import arrow from '../images/arrow.svg';
 import x from '../images/x.svg';
 
-function MultiSelect({selectedItems, setSelectedItems}) {
+function MultiSelect({
+    selectedItems,
+    setSelectedItems,
+    title = 'Multi-select',
+}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [selectedCat, setSelectedCat] = useState('Tops'); //categories
 
@@ -22,7 +26,7 @@ function MultiSelect({selectedItems, setSelectedItems}) {
 
     return (
         <div className="flex flex-col w-full gap-2">
-            <h1 className="font-bold">Multi-select</h1>
+            <h1 className="font-bold">{title}</h1>
             <div
                 className={
                     'relative overflow-hidden w-full bg-gray-100 rounded-3xl px-4 py-3 flex flex-col gap-3 ' +

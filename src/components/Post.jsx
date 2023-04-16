@@ -22,16 +22,11 @@ function Post({ post, id }) {
     const [commentCount, setCommentCount] = useState(0);
     const [linksOpen, setLinksOpen] = useState(false);
 
-    /*     const comments = {
-        user1: { date: '2023/04/15', content: 'HELLO I AM YOUR MOM', pfp: pfp },
-    }; */
-    console.log(likedCounter);
     const changeLike = async () => {
         const postRef = doc(database, 'posts', id);
 
         if (liked) {
             setLikedCounter(likedCounter + 1);
-            console.log(likedCounter);
             updateDoc(postRef, {
                 likeCount: likedCounter,
             });
@@ -118,25 +113,28 @@ function Post({ post, id }) {
             <h1 className="text-sm text-gray-400">{caption}</h1>
             <div className="text-sm">
                 <div className={'flex flex-col'}>
-                    {Object.keys(comments)
-                        .slice(0, commentCount)
-                        .map((user, index) => (
-                            <Comment
-                                key={index}
-                                username={user}
-                                date={comments[user].date}
-                                content={comments[user].content}
-                                pfp={comments[user].pfp}
-                            />
-                        ))}
+                    {comments &&
+                        Object.keys(comments)
+                            .slice(0, commentCount)
+                            .map((user, index) => (
+                                <Comment
+                                    key={index}
+                                    username={user}
+                                    date={comments[user].date}
+                                    content={comments[user].content}
+                                    pfp={comments[user].pfp}
+                                />
+                            ))}
                 </div>
-                <button className="mt-3" onClick={changeCommentCount}>
-                    <h3>
-                        {commentCount >= Object.keys(comments).length
-                            ? 'Hide all comments'
-                            : 'View more comments...'}
-                    </h3>
-                </button>
+                {Object.getOwnPropertyNames(comments).length > 0 && (
+                    <button className="mt-3" onClick={changeCommentCount}>
+                        <h3>
+                            {commentCount >= Object.keys(comments).length
+                                ? 'Hide all comments'
+                                : 'View more comments...'}
+                        </h3>
+                    </button>
+                )}
             </div>
             <div className="border-b"></div>
         </div>
