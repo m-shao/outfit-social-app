@@ -71,6 +71,7 @@ const postData = {
 firebaseConfig.js exposes the `retrieveData()` function which can be called with a `collectionName` (`users` or `posts`). The function returns an object with the data.
 ```JavaScript
 import { useEffect, useState } from 'react';
+import { retrieveData } from '../firebaseConfig';
 const [userData, setUserData] = useState();
 
 useEffect(() => {
@@ -83,11 +84,13 @@ useEffect(() => {
 You can also do the longer method to access the data by importing required functionality and insantiating the collection, with the COLLECTION_NAME: `users` or `posts`. Then retrieve the data, by using getDocs, and looping through the result. Use `.data()` to extract the data and not other extraneous information.
 
 ```JavaScript
-import { db } from '../firebaseConfig'
+import { database } from '../firebaseConfig'
 import { getDocs, collection } from 'firebase/firestore'
 import { useState } from 'react'
+import { retrieveData } from '../firebaseConfig';
+
 const [userData, setUserData] = useState();
-const usersRef = collection(db, COLLECTION_NAME)
+const usersRef = collection(database, COLLECTION_NAME)
 
 getDocs(usersRef).then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -96,18 +99,23 @@ getDocs(usersRef).then((querySnapshot) => {
 })
 ```
 
-### Write
+### Write 
 Writing to the firebase is much easier as it is a one liner.
 Given data (`NEW_DATA`) simply use the following to push to `COLLECTION_NAME` (`users` or `posts`):
 ```JavaScript
+import { addDoc, collection } from 'firebase/firestore';
+import { database } from '../firebaseConfig';
 addDoc(collection(database, COLLECTION_NAME), NEW_DATA);
 ```
+### Update
 
 ## Cloud Storage (Images)
 For all posts (creation or display) Firestore Cloud Storage is used.
 
 ### Create
 ```JavaScript
+import { storage } from '../firebaseConfig';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 const file = fileInputRef.current.files[0]; // fileInputRef is a ref to a file-selector HTML input
 const storageRef = ref(storage, Date.now() + user.name); // create unique ID reference to image
 // Upload image and get downloadable URL this URL is then returned and can be used to load image
