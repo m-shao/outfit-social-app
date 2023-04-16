@@ -8,7 +8,8 @@ function AuthCompletion() {
         setBiography(event.target.value);
     };
     const { user, isAuthenticated, isLoading } = useAuth0();
-    const setData = (redirect = false) => {
+    const setData = async (redirect = false) => {
+        await user;
         const userData = {
             bio: biography,
             liked_posts: [],
