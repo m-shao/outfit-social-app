@@ -1,23 +1,25 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { database, validateUser } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { redirect } from 'react-router-dom';
 function AuthCompletion() {
+    const { user, isAuthenticated, isLoading } = useAuth0();
     const [biography, setBiography] = useState('');
     const handleBioChange = (event) => {
         setBiography(event.target.value);
     };
-    const { user, isAuthenticated, isLoading } = useAuth0();
+
     const setData = async (redirect = false) => {
         await user;
         const userData = {
             bio: biography,
             liked_posts: [],
             password: '',
-            pfp: user.picture,
+            pfp: user?.picture,
             posts: [],
-            email: user.email,
-            userName: user.name,
+            email: user?.email,
+            userName: user?.name,
         };
         setDoc(doc(database, 'users', user.name), userData).then(() => {
             if (redirect == true) {
@@ -26,14 +28,23 @@ function AuthCompletion() {
         });
     };
 
-    if (isAuthenticated) {
-        validateUser(user.name).then((userExists) => {
-            if (userExists == true) {
-                window.location.pathname = '/';
+    useEffect(() => {
+        const authflow = async () => {
+            await user;
+            if (isAuthenticated) {
+                validateUser(user.name).then((userExists) => {
+                    if (userExists) {
+                        redirect('/');
+                    }
+                });
+            } else if (user) {
+                setData();
             }
-        });
-    }
-    setData();
+        };
+
+        authflow();
+    }, [user, isAuthenticated, validateUser]);
+
     return (
         <div>
             {isLoading && 'Please wait while your account is loaded.'}
