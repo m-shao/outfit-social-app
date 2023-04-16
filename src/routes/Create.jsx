@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { database, storage } from '../firebaseConfig';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 import MultiSelect from '../components/MultiSelect';
 
 import upload from '../images/upload.svg';
@@ -19,6 +20,8 @@ function Create() {
     const [selectedItems, setSelectedItems] = useState({});
     const [caption, setCaption] = useState('');
     const fileInputRef = useRef(null);
+
+    const navigate = useNavigate();
 
     const handleClothingChange = (e) => {
         setClothingTypeText(e.target.value);
@@ -57,8 +60,18 @@ function Create() {
             userName: user.name,
             links: affiliateLinks,
         };
-        addDoc(collection(database, 'posts'), postData);
-        redirect('/');
+        addDoc(collection(database, 'posts'), postData).then(() => {
+            addDoc(collection(database, 'posts'), postData)
+                .then(() => {
+                    console.log('Post added successfully!');
+                    navigate('/'); // navigate to the success page
+                })
+                .catch((error) => {
+                    console.error('Error adding post: ', error);
+                    navigate('/error'); // navigate to the error page
+                });
+            console.log('Post added successfully!');
+        });
     }
 
     async function uploadImage() {
