@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FaCloud, FaSun, FaWind } from 'react-icons/fa';
 
+import OutfitGeneration from './OutfitGeneration';
+
 export default function App() {
     const [location, setLocation] = useState(null);
     const [weather, setWeather] = useState({});
@@ -39,7 +41,7 @@ export default function App() {
 
     return (
         <div className="App">
-            <div className="flex flex-col pt-6 pl-6 md:sm:flex-row items-start justify-center">
+            <div className="flex flex-col md:sm:flex-row items-start justify-center">
                 <div className="max-w-md mx-auto px-6 py-8 bg-white rounded-lg shadow-lg">
                     {location ? (
                         <div>
@@ -269,6 +271,7 @@ export default function App() {
                     )}
                 </div>
             </div>
+            <OutfitGeneration temp={weather?.current_weather?.temperature}/>
         </div>
     );
 }
