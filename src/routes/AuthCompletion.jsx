@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { database, validateUser } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function AuthCompletion() {
     const { user, isAuthenticated, isLoading } = useAuth0();
