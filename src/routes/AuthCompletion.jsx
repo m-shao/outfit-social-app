@@ -2,17 +2,21 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { database, validateUser } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 function AuthCompletion() {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const navigate = useNavigate();
+    // State for controlled bio textfield
     const [biography, setBiography] = useState('');
     const handleBioChange = (event) => {
         setBiography(event.target.value);
     };
 
+    // Set user data on cloud (only occurs if user doesn't exist)
     const setData = async (redirect = false) => {
         await user;
+        // User Data Format in Firebase
         const userData = {
             bio: biography,
             liked_posts: [],
@@ -22,33 +26,35 @@ function AuthCompletion() {
             email: user?.email,
             userName: user?.name,
         };
+        // Create a document in the collection with user
         setDoc(doc(database, 'users', user.name), userData).then(() => {
+            // Redirect to home based on parameters
             if (redirect == true) {
-                window.location.pathname = '/';
+                navigate('/');
             }
         });
     };
 
     useEffect(() => {
         const authflow = async () => {
+            // If user exists, navigate to home
+            // else sync data and wait for bio
             await user;
-            if (isAuthenticated) {
-                validateUser(user.name).then((userExists) => {
-                    if (userExists) {
-                        redirect('/');
-                    }
-                });
+            const userExists = await validateUser(user.name);
+            if (userExists) {
+                navigate('/');
             } else if (user) {
                 setData();
             }
+            // Null is returned for navigate("/") to work (resp. obj required)
+            return null;
         };
-
         authflow();
     }, [user, isAuthenticated, validateUser]);
 
     return (
         <div>
-            {isLoading && 'Please wait while your account is loaded.'}
+            {isLoading && 'Your account is loading!'}
             {isAuthenticated && (
                 <>
                     'Set up your account:' Profile Bio:
