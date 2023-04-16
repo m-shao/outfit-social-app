@@ -18,7 +18,7 @@ function Post({ post, id }) {
         userName,
         links,
     } = post;
-    const numberOfCommentsShownPerClick = 3;
+
     const [liked, setLiked] = useState();
     const [likedCounter, setLikedCounter] = useState(likeCount); //local counter
     const [commentList, setCommentList] = useState(comments);
