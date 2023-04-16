@@ -14,6 +14,7 @@ function Create() {
     const [linkText, setLinkText] = useState('');
     const [affiliateLinks, setAffiliateLinks] = useState([]);
     const [addLinkActive, setAddLinkActive] = useState(false);
+    const [selectedItems, setSelectedItems] = useState({});
 
     const handleClothingChange= (e) => {
         setClothingTypeText(e.target.value);
@@ -142,7 +143,10 @@ function Create() {
                     </div>
                     
                 </div>
-                <MultiSelect />
+                <MultiSelect 
+                    selectedItems={selectedItems}
+                    setSelectedItems={setSelectedItems}
+                />
                 <div className=''>
                     <button className='bg-social-blue px-4 py-2 text-white rounded-full' onClick={createPost}>Create Post</button>
                 </div>

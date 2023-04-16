@@ -5,7 +5,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import LoginButton from './LoginButton';
 
 import { navIcons } from '../data/constants';
-import userIcon from '../images/user.svg';
 
 const Navbar = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -15,7 +14,6 @@ const Navbar = () => {
     useEffect(() => {
         const updateProfileOption = async () => {
             await user;
-            console.log('breh');
             if (isAuthenticated) {
                 setProfileOption(
                     <Link to="/profile">
@@ -55,7 +53,7 @@ const Navbar = () => {
                                 setActiveNav('feed');
                             }}
                             className={
-                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-tr-lg ' +
+                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-tr-lg lg:rounded-none ' +
                                 (activeNav == 'feed' && 'bg-gray-200')
                             }
                         >
@@ -72,7 +70,7 @@ const Navbar = () => {
                                 setActiveNav('create');
                             }}
                             className={
-                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-t-lg ' +
+                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-t-lg lg:rounded-none ' +
                                 (activeNav == 'create' && 'bg-gray-200')
                             }
                         >
@@ -89,7 +87,7 @@ const Navbar = () => {
                                 setActiveNav('generate');
                             }}
                             className={
-                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-tl-lg ' +
+                                'flex justify-center lg:justify-start lg:w-full lg:p-4 p-2 gap-2 flex-1 rounded-tl-lg lg:rounded-none ' +
                                 (activeNav == 'generate' && 'bg-gray-200')
                             }
                         >
