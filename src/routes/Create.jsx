@@ -60,18 +60,16 @@ function Create() {
             userName: user.name,
             links: affiliateLinks,
         };
-        addDoc(collection(database, 'posts'), postData).then(() => {
-            addDoc(collection(database, 'posts'), postData)
-                .then(() => {
-                    console.log('Post added successfully!');
-                    navigate('/'); // navigate to the success page
-                })
-                .catch((error) => {
-                    console.error('Error adding post: ', error);
-                    navigate('/error'); // navigate to the error page
-                });
-            console.log('Post added successfully!');
-        });
+        addDoc(collection(database, 'posts'), postData)
+            .then(() => {
+                console.log('Post added successfully!');
+                navigate('/'); // navigate to the success page
+            })
+            .catch((error) => {
+                console.error('Error adding post: ', error);
+                navigate('/error'); // navigate to the error page
+            });
+        console.log('Post added successfully!');
     }
 
     async function uploadImage() {
