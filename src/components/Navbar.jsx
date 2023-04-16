@@ -11,7 +11,7 @@ import logo from '../images/logo.svg';
 const Navbar = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [profileOption, setProfileOption] = useState(<LoginButton />);
-    const [activeNav, setActiveNav] = useState('generate');
+    const [activeNav, setActiveNav] = useState('feed');
 
     useEffect(() => {
         const updateProfileOption = async () => {
